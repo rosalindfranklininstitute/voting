@@ -337,7 +337,8 @@ def analyse_results(
         fig, ax = pylab.subplots(constrained_layout=True)
         ax.set_title("Histogram of number of candidates approved")
         ax.hist(num_approved, bins=np.arange(max(num_approved) + 2) + 0.5)
-        ax.set_xlabel("Num approved")
+        ax.set_xlabel("Number approved")
+        ax.set_ylabel("Number of voters")
         fig.savefig("election/num_approved.png", dpi=600, bbox_inches="tight")
         pylab.close()
 
