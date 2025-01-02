@@ -276,7 +276,7 @@ def analyse_results(
         vote_matrix = vote_matrix.copy().astype(int)
         vote_matrix[mask] = 2
         fig, ax = pylab.subplots(constrained_layout=True)
-        ax.imshow(vote_matrix.T)
+        ax.imshow(vote_matrix.T, interpolation="none")
         ax.set_title("Matrix of candidate approval")
         ax.set_xlabel("Number of elected approved by each voter")
         ax.set_yticks(range(len(candidates)), candidates)
@@ -292,7 +292,9 @@ def analyse_results(
         for i in range(vote_matrix.shape[0]):
             location_vote_matrix[:, lookup[vote_location[i]]] += vote_matrix[i, :]
         fig, ax = pylab.subplots(constrained_layout=True)
-        ax.imshow(location_vote_matrix)
+        ax.imshow(location_vote_matrix, interpolation="none")
+        for (j, i), label in np.ndenumerate(location_vote_matrix):
+            ax.text(i, j, "%d" % location_vote_matrix[j, i], ha="center", va="center")
         ax.set_title("Matrix of candidates approval by location")
         ax.set_yticks(range(len(candidates)), candidates)
         ax.set_xticks(range(len(locations)), locations)
