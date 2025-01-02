@@ -333,7 +333,9 @@ def analyse_results(
     plot_clustering(vote_matrix)
 
 
-def process_voting_data(voting_data: str, num_winners: int = 7, make_plots: bool = False):
+def process_voting_data(
+    voting_data: str, num_winners: int = 7, make_plots: bool = False
+):
     """
     Process the voting data
 
