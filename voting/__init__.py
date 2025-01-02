@@ -13,7 +13,7 @@ import os
 from tabulate import tabulate
 from argparse import ArgumentParser
 from matplotlib import pylab
-from scipy.cluster.hierarchy import dendrogram, linkage 
+from scipy.cluster.hierarchy import dendrogram, linkage
 
 
 def make_vote_matrix(voters: list, num_candidates: int) -> np.ndarray:
@@ -110,7 +110,7 @@ def count_votes(vote_matrix: np.ndarray, num_winners: int):
 
     # The vote matrix has dimension (num_voters, num_candidates)
     num_voters, num_candidates = vote_matrix.shape
-    
+
     # Check we have enough candidates
     assert num_candidates >= num_winners
 
@@ -220,7 +220,7 @@ def print_results(results: list, candidates: list):
 
     # Scientific progress
     progress = "🥼🦠🧬🧫🧪🔬🔥"
-        
+
     # Iterate through the voting rounds and process the results
     final_results_table = []
     for i, result in enumerate(results):
@@ -257,7 +257,9 @@ def print_results(results: list, candidates: list):
     print("🎉 " * len(candidates))
 
 
-def analyse_results(candidates: list, vote_matrix: np.ndarray, vote_location: list, results: list):
+def analyse_results(
+    candidates: list, vote_matrix: np.ndarray, vote_location: list, results: list
+):
     """
     Analyse the election results
 
@@ -281,7 +283,7 @@ def analyse_results(candidates: list, vote_matrix: np.ndarray, vote_location: li
         ax.set_xticks(range(vote_matrix.shape[0]), num_approved)
         fig.savefig("election/vote_matrix.png", dpi=600, bbox_inches="tight")
         pylab.close()
-    
+
     def plot_location_vote_matrix(candidates, vote_matrix, vote_location):
         vote_location = [str(l).split("-")[0].strip() for l in vote_location]
         locations = sorted(list(set(vote_location)))
@@ -294,28 +296,27 @@ def analyse_results(candidates: list, vote_matrix: np.ndarray, vote_location: li
         ax.set_title("Matrix of candidates approval by location")
         ax.set_yticks(range(len(candidates)), candidates)
         ax.set_xticks(range(len(locations)), locations)
-        ax.tick_params(axis='x', labelrotation=90)
+        ax.tick_params(axis="x", labelrotation=90)
         fig.savefig("election/location_vote_matrix.png", dpi=600, bbox_inches="tight")
         pylab.close()
 
     def plot_num_approved(vote_matrix, num_approved):
         fig, ax = pylab.subplots(constrained_layout=True)
         ax.set_title("Histogram of number of candidates approved")
-        ax.hist(num_approved, bins=np.arange(max(num_approved)+2)+0.5)
+        ax.hist(num_approved, bins=np.arange(max(num_approved) + 2) + 0.5)
         ax.set_xlabel("Num approved")
         fig.savefig("election/num_approved.png", dpi=600, bbox_inches="tight")
         pylab.close()
 
     def plot_clustering(vote_matrix):
-        Z = linkage(vote_matrix.T, 'ward') 
+        Z = linkage(vote_matrix.T, "ward")
         fig, ax = pylab.subplots(constrained_layout=True)
-        dendrogram(Z, ax=ax, labels=candidates) 
-        ax.set_title('Hierarchical clustering of voting results') 
-        ax.set_ylabel('Distance') 
-        ax.tick_params(axis='x', labelrotation=90)
+        dendrogram(Z, ax=ax, labels=candidates)
+        ax.set_title("Hierarchical clustering of voting results")
+        ax.set_ylabel("Distance")
+        ax.tick_params(axis="x", labelrotation=90)
         fig.savefig("election/clustering.png", dpi=600, bbox_inches="tight")
         pylab.close()
-
 
     # Get the final outcome and number of approved candidates
     outcome = results[-1]["outcome"]
@@ -363,9 +364,7 @@ def main():
     """
 
     # Create the argument parser
-    parser = ArgumentParser(
-        description="Count votes for the RFI Post Doc Association!"
-    )
+    parser = ArgumentParser(description="Count votes for the RFI Post Doc Association!")
 
     # Add some command line arguments
     parser.add_argument(
