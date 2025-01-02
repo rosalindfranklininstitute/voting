@@ -357,7 +357,7 @@ def process_voting_data(voting_data: str, num_winners: int = 7):
     analyse_results(candidates, vote_matrix, vote_location, results)
 
 
-def main():
+def main(args=None):
     """
     Main entry point for the script
 
@@ -392,7 +392,7 @@ def main():
     )
 
     # Parse the command line arguments
-    args = parser.parse_args()
+    args = parser.parse_args(args=args)
 
     # Process the voting data
     process_voting_data(args.voting_data[0], args.num_winners)
