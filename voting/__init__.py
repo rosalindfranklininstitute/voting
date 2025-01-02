@@ -10,6 +10,7 @@ import itertools
 import pandas as pd
 import numpy as np
 import os
+from collections import Counter
 from tabulate import tabulate
 from argparse import ArgumentParser
 from matplotlib import pylab
@@ -186,13 +187,17 @@ def count_votes(vote_matrix: np.ndarray, num_winners: int):
         }
 
 
-def print_results(results: list, candidates: list):
+def print_results(
+    results: list, candidates: list, vote_location: list, num_winners: int
+):
     """
     Print the voting results
 
     Args:
         results: The result of each voting round
         candidates: The list of candidates
+        vote_location: The list of voter locations
+        num_winners: The number of winners
 
     """
 
@@ -211,6 +216,32 @@ def print_results(results: list, candidates: list):
                 result["outcome"][select],
             )
         ]
+
+    # Print some general info
+    print("❕ Election information ❕")
+    print("")
+    print(
+        tabulate(
+            [
+                ["Number of voters", len(vote_location)],
+                ["Number of candidates", len(candidates)],
+                ["Number of winners", num_winners],
+            ],
+            headers=["Description", "Value"],
+        )
+    )
+    print("")
+
+    # Print the voter locations
+    print("📍 Voter location 📍")
+    print("")
+    print(
+        tabulate(
+            Counter(sorted([str(l) for l in vote_location])).items(),
+            headers=["Location", "Number"],
+        )
+    )
+    print("")
 
     # Print the candidate names
     print("💀 Candidates 💀")
@@ -356,7 +387,7 @@ def process_voting_data(
     results = list(count_votes(vote_matrix, num_winners))
 
     # Print the results
-    print_results(results, candidates)
+    print_results(results, candidates, vote_location, num_winners)
 
     # Do some analysis
     if make_plots:
