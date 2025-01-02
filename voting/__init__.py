@@ -333,13 +333,14 @@ def analyse_results(
     plot_clustering(vote_matrix)
 
 
-def process_voting_data(voting_data: str, num_winners: int = 7):
+def process_voting_data(voting_data: str, num_winners: int = 7, make_plots: bool = False):
     """
     Process the voting data
 
     Args:
         voting_data: The filename of the voting data file
         num_winners: The number of winning candidates
+        make_plots: Analyse the results
 
 
     """
@@ -354,7 +355,8 @@ def process_voting_data(voting_data: str, num_winners: int = 7):
     print_results(results, candidates)
 
     # Do some analysis
-    analyse_results(candidates, vote_matrix, vote_location, results)
+    if make_plots:
+        analyse_results(candidates, vote_matrix, vote_location, results)
 
 
 def main(args=None):
@@ -390,12 +392,23 @@ def main(args=None):
             """
         ),
     )
+    parser.add_argument(
+        "--make_plots",
+        action="store_true",
+        default=False,
+        dest="make_plots",
+        help=(
+            """
+            Output some analysis
+            """
+        ),
+    )
 
     # Parse the command line arguments
     args = parser.parse_args(args=args)
 
     # Process the voting data
-    process_voting_data(args.voting_data[0], args.num_winners)
+    process_voting_data(args.voting_data[0], args.num_winners, args.make_plots)
 
 
 if __name__ == "__main__":
